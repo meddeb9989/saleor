@@ -145,10 +145,15 @@ export default (colors: IThemeColors): Theme =>
           fontSize: ".875rem",
           fontWeight: 600
         },
+        paddingCheckbox: {
+          width: "1%"
+        },
         root: {
           "&:first-child": {
-            paddingLeft: 24 + "px",
-            textAlign: "left" as "left"
+            "&:not($paddingCheckbox)": {
+              paddingLeft: 24 + "px",
+              textAlign: "left" as "left"
+            }
           },
           borderBottomColor: colors.paperBorder,
           padding: "4px 24px 4px 0"
@@ -168,6 +173,11 @@ export default (colors: IThemeColors): Theme =>
         hover: {
           "$root&:hover": {
             backgroundColor: fade(colors.primary, 0.2)
+          }
+        },
+        root: {
+          "&$selected": {
+            backgroundColor: fade(colors.primary, 0.05)
           }
         }
       }
