@@ -18,7 +18,7 @@ from prices import Money
 from saleor.account.backends import BaseBackend
 from saleor.account.models import Address, User
 from saleor.checkout import utils
-from saleor.checkout.models import Cart
+from saleor.checkout.models import Checkout
 from saleor.checkout.utils import add_variant_to_cart
 from saleor.core.utils.taxes import DEFAULT_TAX_RATE_NAME
 from saleor.dashboard.menu.utils import update_menu
@@ -27,15 +27,14 @@ from saleor.discount.models import Sale, Voucher, VoucherTranslation
 from saleor.menu.models import Menu, MenuItem
 from saleor.order import OrderEvents, OrderStatus
 from saleor.order.models import FulfillmentStatus, Order, OrderEvent
-from saleor.order.utils import recalculate_order, fulfill_order_line
+from saleor.order.utils import fulfill_order_line, recalculate_order
 from saleor.page.models import Page
 from saleor.payment import ChargeStatus, TransactionKind
 from saleor.payment.models import Payment
 from saleor.product.models import (
     Attribute, AttributeTranslation, AttributeValue, Category, Collection,
-    Product, ProductImage, ProductTranslation, ProductType, ProductVariant,
-    DigitalContent
-)
+    DigitalContent, Product, ProductImage, ProductTranslation, ProductType,
+    ProductVariant)
 from saleor.shipping.models import (
     ShippingMethod, ShippingMethodType, ShippingZone)
 from saleor.site import AuthenticationBackends
@@ -70,7 +69,7 @@ def site_settings(db, settings):
 
 @pytest.fixture
 def cart(db):
-    return Cart.objects.create()
+    return Checkout.objects.create()
 
 
 @pytest.fixture
