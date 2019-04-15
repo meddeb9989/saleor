@@ -401,7 +401,7 @@ class BaseBulkMutation(BaseMutation):
         raise NotImplementedError
 
     @classmethod
-    def perform_mutation(cls, root, info, ids):
+    def perform_mutation(cls, root, info, ids, **data):
         """Perform a mutation that deletes a list of model instances."""
         clean_instance_ids, errors = [], {}
         instance_model = cls._meta.model
@@ -430,7 +430,8 @@ class BaseBulkMutation(BaseMutation):
         count = len(clean_instance_ids)
         if count:
             qs = instance_model.objects.filter(pk__in=clean_instance_ids)
-            cls.bulk_action(queryset=qs)
+            data['user'] = info.context.user
+            cls.bulk_action(queryset=qs, **data)
         return count, errors
 
     @classmethod
@@ -449,7 +450,7 @@ class ModelBulkDeleteMutation(BaseBulkMutation):
         abstract = True
 
     @classmethod
-    def bulk_action(cls, queryset):
+    def bulk_action(cls, queryset, **kwargs):
         queryset.delete()
 
 
@@ -458,7 +459,7 @@ class ModelBulkPublishMutation(BaseBulkMutation):
         abstract = True
 
     @classmethod
-    def bulk_action(cls, queryset):
+    def bulk_action(cls, queryset, **kwargs):
         queryset.update(is_published=True)
 
 
